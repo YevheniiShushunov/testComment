@@ -1,12 +1,10 @@
 import './App.css';
-import {CommentList} from './components/CommentList';
-import { PostComment } from './components/PostComment';
+import { Container } from './components/Container';
 
 function App() {
   return (
     <div className="App">
-      <CommentList/>
-      <PostComment/>
+      <Container/>
     </div>
   );
 }

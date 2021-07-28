@@ -1,23 +1,12 @@
 import { RequestState } from '../types/RequestState';
-import { ApiService } from '../api/ApiService';
-import { useState } from 'react';
 
-export function PostComment() {
-  const [requestState, setRequestState] = useState(RequestState.none);
-  const [name, setName] = useState('');
-  const [text, setText] = useState('');
+export function PostComment({ name, onChangeName, text, onChangeText, onPost, requestState }) {
+  const handleChangeName = e => {
+    onChangeName(e.currentTarget.value);
+  }
 
-  const handleClickSend = async () => {
-    if (requestState === RequestState.none) {
-      try {
-        setRequestState(RequestState.request);
-        await ApiService.postComment(name, text);
-        setText('');
-        setRequestState(RequestState.success);
-      } catch (e) {
-        setRequestState(RequestState.failure);
-      }
-    }
+  const handleChangeText = e => {
+    onChangeText(e.currentTarget.value);
   }
 
   return (
@@ -25,18 +14,20 @@ export function PostComment() {
       <div>Add comment:</div>
       <div className="flex-row">
         <div>Name:</div>
-        <div><input value={name} onChange={e => setName(e.currentTarget.value)}/></div>
+        <div>
+          <input value={name} onChange={handleChangeName}/>
+        </div>
       </div>
       <div className="flex-row">
         <div>
           Message:
         </div>
         <div>
-          <textarea value={text} onChange={e => setText(e.currentTarget.value)}/>
+          <textarea value={text} onChange={handleChangeText}/>
         </div>
       </div>
       <div>
-        <button disabled={requestState === RequestState.request} onClick={handleClickSend}>
+        <button disabled={requestState === RequestState.request} onClick={onPost}>
           Send
         </button>
       </div>

@@ -4,6 +4,7 @@ import { RequestState } from '../types/RequestState';
 import { useEffect, useState } from 'react';
 import { ApiService } from '../api/ApiService';
 import { Pagination } from './Pagination';
+import { Preloader } from './Preloader';
 
 export const Container = () => {
   const [rsList, setRsList] = useState(RequestState.none);
@@ -64,7 +65,9 @@ export const Container = () => {
         currentPage={currentPage}
         onSelect={handleClickPageNum}
       />
-      <CommentList comments={comments}/>
+      <Preloader inProgress={rsList === RequestState.request}>
+        <CommentList comments={comments}/>
+      </Preloader>
     </>
   )
 }
